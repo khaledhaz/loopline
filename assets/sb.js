@@ -89,6 +89,14 @@
   }
   async function similar(wsSlug, text) {
     if (!text || text.trim().length < 4) return [];
+    // SEMANTIC first (gte-small embeddings — catches paraphrases with no shared words);
+    // fall back to pg_trgm keyword match if the AI endpoint is unavailable.
+    try {
+      const { data, error } = await sb.functions.invoke("loop-similar", {
+        body: { action: "similar", w_slug: wsSlug, query: text, limit: 3 },
+      });
+      if (!error && Array.isArray(data)) return data;
+    } catch (e) { /* fall through to keyword */ }
     const { data, error } = await sb.rpc("loop_similar", { p_w_slug: wsSlug, p_q: text });
     if (error) return [];
     return data || [];
@@ -107,6 +115,10 @@
       p_w_slug: wsSlug, p_board_slug: boardSlug, p_title: title, p_body: body, p_email: email, p_name: name,
     });
     if (error) throw error;
+    // embed the new post so future semantic dedup can find it (fire-and-forget)
+    try {
+      if (data && data.id) sb.functions.invoke("loop-similar", { body: { action: "embed_one", post_id: data.id, text: title + " " + (body || "") } });
+    } catch (e) { /* non-critical */ }
     return data;
   }
   async function vote(postId, email) {
