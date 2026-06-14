@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — Loopline</title>
+  <meta name="description" content="Flat pricing by admin seat. No per-user charges, no surprises. Free forever, Pro $29/mo, Business $99/mo.">
+  <link rel="stylesheet" href="assets/loop.css">
+  <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body>
+
+<!-- ════════════════════════════ NAV ════════════════════════════ -->
+<header class="nav" id="nav" role="banner">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Loopline home">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none" aria-hidden="true" focusable="false">
+        <ellipse cx="9.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none"/>
+        <ellipse cx="16.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none" opacity=".7"/>
+      </svg>
+      Loopline
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#roadmap-feature">Roadmap</a></li>
+        <li><a href="pricing.html" aria-current="page" style="color: var(--accent);">Pricing</a></li>
+        <li><a href="portal.html?w=acme" class="demo-link">Live demo</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="admin.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="admin.html" class="btn btn-primary btn-sm">Start free</a>
+    </div>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="3" y="5" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="10" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="15" width="16" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#roadmap-feature">Roadmap</a>
+    <a href="pricing.html" aria-current="page">Pricing</a>
+    <a href="portal.html?w=acme">Live demo</a>
+    <a href="admin.html" class="btn btn-primary">Start free</a>
+  </nav>
+</header>
+
+<!-- ════════════════════════════ HERO ════════════════════════════ -->
+<section class="pricing-hero" aria-labelledby="pricing-h">
+  <div class="reveal">
+    <h1 id="pricing-h">Flat pricing. No per-user surprises.</h1>
+    <p>
+      You pay for admin seats. Your users vote, comment, and follow your roadmap
+      for free — always. No metered MAUs, no "user tracking" fees.
+    </p>
+
+    <!-- Billing toggle -->
+    <div role="group" aria-label="Billing frequency">
+      <div class="billing-toggle">
+        <button class="billing-option active" id="btn-monthly" aria-pressed="true"
+                onclick="setBilling('monthly')">Monthly</button>
+        <button class="billing-option" id="btn-annual" aria-pressed="false"
+                onclick="setBilling('annual')">
+          Annual <span class="annual-badge">2 months free</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PRICING CARDS ════════════════════════════ -->
+<section class="section section-white" style="padding-top: 0;" aria-label="Pricing plans">
+  <div class="section-inner">
+    <div class="pricing-cards">
+
+      <!-- FREE -->
+      <div class="pricing-card reveal">
+        <div class="card-tier">Free</div>
+        <div class="card-price" id="price-free">
+          <sup>$</sup>0
+          <span class="per">/mo</span>
+        </div>
+        <p class="card-desc">Everything you need to start collecting and acting on feedback.</p>
+        <div class="card-btn">
+          <a href="admin.html" class="btn btn-ghost" style="width: 100%; justify-content: center;">
+            Start free — no card needed
+          </a>
+        </div>
+        <hr class="card-divider">
+        <div class="card-features-head">What's included</div>
+        <ul class="card-features">
+          <li><span class="check-ok">✓</span> 1 feedback board</li>
+          <li><span class="check-ok">✓</span> Unlimited voters (always free)</li>
+          <li><span class="check-ok">✓</span> Public roadmap (Planned / In Progress / Shipped)</li>
+          <li><span class="check-ok">✓</span> Changelog (published entries)</li>
+          <li><span class="check-ok">✓</span> Post upvoting + comments</li>
+          <li><span class="check-ok">✓</span> Inline admin status changes</li>
+          <li><span class="check-no">—</span> Custom domain</li>
+          <li><span class="check-no">—</span> Remove Loopline branding</li>
+          <li><span class="check-no">—</span> Private boards</li>
+          <li><span class="check-no">—</span> CSV export</li>
+          <li><span class="check-no">—</span> Semantic duplicate detection</li>
+        </ul>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="popular-badge">Most popular</div>
+        <div class="card-tier">Pro</div>
+        <div class="card-price" id="price-pro">
+          <sup>$</sup><span class="price-monthly">29</span><span class="price-annual" style="display:none;">24</span>
+          <span class="per">/mo</span>
+          <div class="annual-note" id="pro-annual-note">Billed $288/yr — 2 months free</div>
+        </div>
+        <p class="card-desc">For teams who are serious about building what users actually want.</p>
+        <div class="card-btn">
+          <a href="admin.html" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Start free — upgrade anytime
+          </a>
+        </div>
+        <hr class="card-divider">
+        <div class="card-features-head">Everything in Free, plus</div>
+        <ul class="card-features">
+          <li><span class="check-ok">✓</span> Unlimited feedback boards</li>
+          <li><span class="check-ok">✓</span> Custom domain (feedback.yourdomain.com)</li>
+          <li><span class="check-ok">✓</span> Remove Loopline branding</li>
+          <li><span class="check-ok">✓</span> Private boards (invite-only)</li>
+          <li><span class="check-ok">✓</span> CSV export of all posts and votes</li>
+          <li><span class="check-ok">✓</span>
+            <span>Semantic duplicate detection <span style="font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:999px;margin-left:4px;">AI</span></span>
+          </li>
+          <li><span class="check-ok">✓</span> Admin merge (combine duplicate posts)</li>
+          <li><span class="check-ok">✓</span> Changelog linked to posts (auto-ships)</li>
+          <li><span class="check-ok">✓</span> 1 admin seat (you)</li>
+          <li><span class="check-no">—</span> Advanced analytics</li>
+          <li><span class="check-no">—</span> Multiple admin seats</li>
+        </ul>
+      </div>
+
+      <!-- BUSINESS -->
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="card-tier">Business</div>
+        <div class="card-price" id="price-biz">
+          <sup>$</sup><span class="price-monthly">99</span><span class="price-annual" style="display:none;">82</span>
+          <span class="per">/mo</span>
+          <div class="annual-note" id="biz-annual-note">Billed $984/yr — 2 months free</div>
+        </div>
+        <p class="card-desc">For scaling teams who need analytics, multiple admins, and priority support.</p>
+        <div class="card-btn">
+          <a href="admin.html" class="btn btn-ghost" style="width: 100%; justify-content: center;">
+            Start free — upgrade anytime
+          </a>
+        </div>
+        <hr class="card-divider">
+        <div class="card-features-head">Everything in Pro, plus</div>
+        <ul class="card-features">
+          <li><span class="check-ok">✓</span> Advanced analytics dashboard</li>
+          <li><span class="check-ok">✓</span> Multiple admin seats (up to 10)</li>
+          <li><span class="check-ok">✓</span> Priority support (response within 4 hrs)</li>
+          <li><span class="check-ok">✓</span> Team roles: owner, admin, viewer</li>
+          <li><span class="check-ok">✓</span> Weekly trend &amp; funnel reports</li>
+          <li>
+            <span class="check-ok" style="color:var(--warn);">○</span>
+            <span style="color:var(--mut);">SSO / SAML (coming soon)</span>
+          </li>
+          <li>
+            <span class="check-ok" style="color:var(--warn);">○</span>
+            <span style="color:var(--mut);">Integrations API (coming soon)</span>
+          </li>
+          <li>
+            <span class="check-ok" style="color:var(--warn);">○</span>
+            <span style="color:var(--mut);">Webhooks (coming soon)</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Honest-pricing callout -->
+    <div class="reveal" style="margin-top: 40px; text-align: center;">
+      <div style="display: inline-block; background: var(--accent-soft); border: 1px solid #c5b8ff; border-radius: var(--radius-lg); padding: 16px 28px; max-width: 560px;">
+        <p style="color: var(--accent); font-weight: 600; font-size: 15px; margin: 0;">
+          <strong>The pricing principle:</strong> we charge per admin seat, not per voter or per MAU.
+          A company with 50,000 active users pays the same as one with 500. Your users vote for free, always.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ COMPARISON TABLE ════════════════════════════ -->
+<section class="compare-section" aria-labelledby="compare-h">
+  <div class="compare-inner">
+    <div class="center reveal" style="margin-bottom: 40px;">
+      <span class="section-label">Compare plans</span>
+      <h2 id="compare-h">Everything side by side</h2>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="compare-table" role="table" aria-label="Feature comparison across plans">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Free</th>
+            <th scope="col" class="accent-th">Pro</th>
+            <th scope="col">Business</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cat-row"><td colspan="4">Feedback collection</td></tr>
+          <tr>
+            <td>Feedback boards</td>
+            <td>1</td>
+            <td>Unlimited</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <td>Voters (end users)</td>
+            <td><span class="ck">✓</span> Unlimited</td>
+            <td><span class="ck">✓</span> Unlimited</td>
+            <td><span class="ck">✓</span> Unlimited</td>
+          </tr>
+          <tr>
+            <td>Post upvoting</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Comments &amp; threads</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Private boards</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Semantic duplicate detection</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>CSV export</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="4">Roadmap &amp; Changelog</td></tr>
+          <tr>
+            <td>Public roadmap</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Changelog</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Changelog links posts (auto-ships)</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="4">Admin &amp; workflow</td></tr>
+          <tr>
+            <td>Inline status changes</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Merge duplicate posts</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Official admin replies</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Admin seats</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Up to 10</td>
+          </tr>
+          <tr>
+            <td>Advanced analytics</td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="4">Branding &amp; domain</td></tr>
+          <tr>
+            <td>Custom domain</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Remove Loopline branding</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Custom accent color &amp; logo</td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+
+          <tr class="cat-row"><td colspan="4">Support &amp; integrations</td></tr>
+          <tr>
+            <td>Community support</td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>Priority support (4 hr SLA)</td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td><span class="ck">✓</span></td>
+          </tr>
+          <tr>
+            <td>SSO / SAML</td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td><span class="partial">Coming soon</span></td>
+          </tr>
+          <tr>
+            <td>API &amp; webhooks</td>
+            <td><span class="no">—</span></td>
+            <td><span class="no">—</span></td>
+            <td><span class="partial">Coming soon</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FAQ ════════════════════════════ -->
+<section class="faq-section" aria-labelledby="faq-h">
+  <div class="faq-inner">
+    <div class="center reveal" style="margin-bottom: 40px;">
+      <span class="section-label">FAQ</span>
+      <h2 id="faq-h">Common questions</h2>
+    </div>
+
+    <div class="faq-item reveal" id="faq-1">
+      <button class="faq-q" aria-expanded="false" aria-controls="faq-1-body"
+              onclick="toggleFaq(this)">
+        Do my users (voters) need to pay?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a" id="faq-1-body" role="region">
+        Never. End users — the customers who submit feedback, upvote posts, and follow your roadmap —
+        are always free, on every plan, no matter how many of them there are. You pay once, per admin
+        seat. This is the core of our pricing philosophy: don't penalize teams for having engaged users.
+      </div>
+    </div>
+
+    <div class="faq-item reveal" id="faq-2">
+      <button class="faq-q" aria-expanded="false" aria-controls="faq-2-body"
+              onclick="toggleFaq(this)">
+        What happens if I need more than 10 admin seats?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a" id="faq-2-body" role="region">
+        If you're running a larger team and the Business plan's 10-seat limit doesn't fit,
+        reach out to us directly. We'll work out an arrangement that makes sense — we're not going
+        to charge you per-user rates just because you have a bigger team. Most teams at that scale
+        also want SSO, which we're building now.
+      </div>
+    </div>
+
+    <div class="faq-item reveal" id="faq-3">
+      <button class="faq-q" aria-expanded="false" aria-controls="faq-3-body"
+              onclick="toggleFaq(this)">
+        Can I switch plans or cancel anytime?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a" id="faq-3-body" role="region">
+        Yes, on both counts. Upgrade or downgrade at any time — changes take effect at the next
+        billing cycle. Cancel anytime with no penalty; you keep access until the period you paid for ends.
+        We don't believe in lock-in, and we don't hide a cancellation button behind a support form.
+      </div>
+    </div>
+
+    <div class="faq-item reveal" id="faq-4">
+      <button class="faq-q" aria-expanded="false" aria-controls="faq-4-body"
+              onclick="toggleFaq(this)">
+        How does the Free plan differ from a trial?
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-a" id="faq-4-body" role="region">
+        The Free plan is not a time-limited trial — it's a permanent tier. You can run one feedback
+        board, a public roadmap, and a changelog on the Free plan indefinitely. The main reasons to
+        upgrade are: more boards, custom domain, removing Loopline branding, and access to semantic
+        duplicate detection. If the Free plan covers what you need, use it forever.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PRICING CTA ════════════════════════════ -->
+<section class="pricing-cta-strip" aria-labelledby="pricing-cta-h">
+  <h2 id="pricing-cta-h">Start free. Upgrade when you're ready.</h2>
+  <p>No card required. Takes 2 minutes to set up your first board.</p>
+  <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <a href="admin.html" class="btn btn-white btn-lg">Start free</a>
+    <a href="portal.html?w=acme" class="btn btn-ghost-white btn-lg">See a live workspace &rarr;</a>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">
+          <svg width="22" height="22" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <ellipse cx="9.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none"/>
+            <ellipse cx="16.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none" opacity=".7"/>
+          </svg>
+          Loopline
+        </div>
+        <p class="footer-tagline">
+          The shortest line between you<br>and what your users actually want.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="portal.html?w=acme">Live demo</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Loopline. All rights reserved.</p>
+      <p>Built for product teams who actually listen.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── Nav scroll shadow ───
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+
+  // ─── Mobile nav ───
+  const toggle = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('nav-mobile');
+  toggle.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      toggle.focus();
+    }
+  });
+
+  // ─── Billing toggle ───
+  function setBilling(mode) {
+    const isAnnual = mode === 'annual';
+
+    document.getElementById('btn-monthly').classList.toggle('active', !isAnnual);
+    document.getElementById('btn-monthly').setAttribute('aria-pressed', String(!isAnnual));
+    document.getElementById('btn-annual').classList.toggle('active', isAnnual);
+    document.getElementById('btn-annual').setAttribute('aria-pressed', String(isAnnual));
+
+    // Pro: $29/mo or $24/mo (annual)
+    const proM = document.querySelector('#price-pro .price-monthly');
+    const proA = document.querySelector('#price-pro .price-annual');
+    if (proM) proM.style.display = isAnnual ? 'none' : '';
+    if (proA) proA.style.display = isAnnual ? '' : 'none';
+    const proNote = document.getElementById('pro-annual-note');
+    if (proNote) proNote.classList.toggle('show', isAnnual);
+
+    // Business: $99/mo or $82/mo (annual)
+    const bizM = document.querySelector('#price-biz .price-monthly');
+    const bizA = document.querySelector('#price-biz .price-annual');
+    if (bizM) bizM.style.display = isAnnual ? 'none' : '';
+    if (bizA) bizA.style.display = isAnnual ? '' : 'none';
+    const bizNote = document.getElementById('biz-annual-note');
+    if (bizNote) bizNote.classList.toggle('show', isAnnual);
+  }
+
+  // ─── FAQ accordion ───
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  // Keyboard support for FAQ (Enter and Space already work via button)
+
+  // ─── Reveal animations ───
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+</script>
+</body>
+</html>

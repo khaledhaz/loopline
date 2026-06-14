@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loopline — Customer Feedback, Public Roadmap &amp; Changelog</title>
+  <meta name="description" content="The shortest line between you and what your users actually want. Centralize feedback, prioritize with upvotes, ship with a public roadmap, and close the loop with changelog.">
+  <link rel="stylesheet" href="assets/loop.css">
+  <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body>
+
+<!-- ════════════════════════════ NAV ════════════════════════════ -->
+<header class="nav" id="nav" role="banner">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Loopline home">
+      <!-- Logo mark: two interlocking loops in accent color -->
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none" aria-hidden="true" focusable="false">
+        <ellipse cx="9.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none"/>
+        <ellipse cx="16.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none" opacity=".7"/>
+      </svg>
+      Loopline
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#roadmap-feature">Roadmap</a></li>
+        <li><a href="#pricing-teaser">Pricing</a></li>
+        <li><a href="portal.html?w=acme" class="demo-link">Live demo</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="admin.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="admin.html" class="btn btn-primary btn-sm">Start free</a>
+    </div>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="3" y="5" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="10" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect x="3" y="15" width="16" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+    <a href="#features">Features</a>
+    <a href="#roadmap-feature">Roadmap</a>
+    <a href="#pricing-teaser">Pricing</a>
+    <a href="portal.html?w=acme">Live demo</a>
+    <a href="admin.html" class="btn btn-primary">Start free</a>
+  </nav>
+</header>
+
+<!-- ════════════════════════════ HERO ════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-headline">
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="hero-badge" role="status">
+      <span class="dot-pulse" aria-hidden="true"></span>
+      Now in open beta
+    </div>
+
+    <h1 id="hero-headline">
+      The shortest line between you and <em>what your users actually want.</em>
+    </h1>
+
+    <p class="hero-sub">
+      Stop drowning in emails, DMs, and spreadsheets. Loopline centralizes customer feedback,
+      lets users upvote what matters, shows a public roadmap, and announces shipped work —
+      closing the loop that keeps users loyal.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="admin.html" class="btn btn-primary btn-hero">Start free — no card needed</a>
+      <a href="portal.html?w=acme" class="btn btn-ghost btn-hero">See the live demo &rarr;</a>
+    </div>
+  </div>
+
+  <!-- CSS product mock -->
+  <div class="hero-mock" aria-hidden="true">
+    <div class="mock-window">
+      <div class="mock-bar">
+        <span class="mock-dots">
+          <span></span><span></span><span></span>
+        </span>
+        <span class="mock-url">feedback.acme.com</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-tabs">
+          <span class="mock-tab active">Top requests</span>
+          <span class="mock-tab">Roadmap</span>
+          <span class="mock-tab">Changelog</span>
+        </div>
+        <div class="mock-posts" role="list">
+          <div class="mock-post" role="listitem">
+            <div class="mock-vote voted">
+              <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l4 5H2z"/></svg>
+              247
+            </div>
+            <div class="mock-post-text">
+              <div class="mock-post-title">Dark mode support across all views</div>
+              <div class="mock-post-meta">143 comments · under review</div>
+            </div>
+            <span class="mock-status status-review">Under review</span>
+          </div>
+          <div class="mock-post" role="listitem">
+            <div class="mock-vote normal">
+              <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l4 5H2z"/></svg>
+              189
+            </div>
+            <div class="mock-post-text">
+              <div class="mock-post-title">Bulk export feedback to CSV</div>
+              <div class="mock-post-meta">72 comments</div>
+            </div>
+            <span class="mock-status status-planned">Planned</span>
+          </div>
+          <div class="mock-post" role="listitem">
+            <div class="mock-vote normal">
+              <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 2l4 5H2z"/></svg>
+              114
+            </div>
+            <div class="mock-post-text">
+              <div class="mock-post-title">Zapier / Make integration</div>
+              <div class="mock-post-meta">38 comments</div>
+            </div>
+            <span class="mock-status status-open">Open</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PROBLEM → SOLUTION ════════════════════════════ -->
+<section class="section section-white" aria-labelledby="problem-headline">
+  <div class="section-inner">
+    <div class="center reveal" style="margin-bottom: 48px;">
+      <span class="section-label">The problem</span>
+      <h2 id="problem-headline">Feedback is everywhere and nowhere.</h2>
+      <p style="max-width: 520px; margin: 0 auto; font-size: 17px;">
+        Your users are telling you what they want. But you can't hear them over the noise.
+      </p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-box reveal">
+        <h3>Before Loopline</h3>
+        <ul class="problem-list">
+          <li>Feature requests scattered across email, Slack, Intercom, calls</li>
+          <li>No way to know which request represents 1 user vs. 100</li>
+          <li>Roadmap lives in a private Notion doc no one trusts</li>
+          <li>You ship something. Users who asked for it never find out.</li>
+          <li>Users assume you ignored them — they churn</li>
+        </ul>
+      </div>
+
+      <div class="problem-arrow reveal" aria-hidden="true">&#10230;</div>
+
+      <div class="solution-box reveal">
+        <h3>With Loopline</h3>
+        <ul class="solution-list">
+          <li>One public board — users submit and upvote in seconds</li>
+          <li>Upvote count = objective demand signal, no gut-feel required</li>
+          <li>Public roadmap users can follow and trust</li>
+          <li>Changelog auto-closes linked requests with "you asked, we built it"</li>
+          <li>Users feel heard — they stay and refer others</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FEATURES ════════════════════════════ -->
+
+<!-- Feature 1: Feedback boards -->
+<section class="feature-section" id="features" aria-labelledby="feat1-h">
+  <div class="feature-row">
+    <div class="feature-text reveal">
+      <span class="feature-tag">Feedback boards</span>
+      <h2 id="feat1-h">Stop guessing. Let votes decide.</h2>
+      <p>
+        Every request gets a public upvote button. Users vote once per post —
+        no spam, no stuffing. The board stays sorted by real demand, not whoever
+        emailed you most recently. You get an objective signal without a survey.
+      </p>
+    </div>
+    <div class="illus reveal reveal-delay-1" aria-hidden="true">
+      <div class="illus-header">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        Feature requests · 3 boards
+      </div>
+      <div class="illus-body">
+        <div class="illus-post">
+          <div class="illus-vote-btn voted">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1l4 5H1z"/></svg>
+            247
+          </div>
+          <div class="illus-post-text">
+            <div class="illus-post-title">Dark mode support</div>
+            <div class="illus-post-sub">143 comments · under review</div>
+          </div>
+        </div>
+        <div class="illus-post">
+          <div class="illus-vote-btn normal">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1l4 5H1z"/></svg>
+            189
+          </div>
+          <div class="illus-post-text">
+            <div class="illus-post-title">Bulk CSV export</div>
+            <div class="illus-post-sub">72 comments · planned</div>
+          </div>
+        </div>
+        <div class="illus-post">
+          <div class="illus-vote-btn normal">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1l4 5H1z"/></svg>
+            114
+          </div>
+          <div class="illus-post-text">
+            <div class="illus-post-title">Zapier integration</div>
+            <div class="illus-post-sub">38 comments · open</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature 2: Roadmap -->
+<section class="feature-section section-white" id="roadmap-feature" aria-labelledby="feat2-h">
+  <div class="feature-row reverse">
+    <div class="feature-text reveal">
+      <span class="feature-tag">Public roadmap</span>
+      <h2 id="feat2-h">Transparency is a retention strategy.</h2>
+      <p>
+        A public kanban roadmap — Planned, In Progress, Shipped — gives users a reason
+        to check back instead of churning. They see their request move. They feel invested.
+        You stop fielding "when is this coming?" support tickets.
+      </p>
+    </div>
+    <div class="illus reveal reveal-delay-1" aria-hidden="true">
+      <div class="illus-header">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 8h7M2 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Public roadmap
+      </div>
+      <div class="illus-body">
+        <div class="illus-kanban">
+          <div class="illus-col">
+            <div class="illus-col-head">Planned</div>
+            <div class="illus-card">Dark mode</div>
+            <div class="illus-card">CSV export</div>
+          </div>
+          <div class="illus-col">
+            <div class="illus-col-head">In Progress</div>
+            <div class="illus-card" style="border-left: 3px solid #6d5efc;">Zapier integ.</div>
+            <div class="illus-card" style="border-left: 3px solid #6d5efc;">Mobile app</div>
+          </div>
+          <div class="illus-col">
+            <div class="illus-col-head">Shipped</div>
+            <div class="illus-card" style="border-left: 3px solid #27c498;">Custom domain</div>
+            <div class="illus-card" style="border-left: 3px solid #27c498;">API v2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature 3: Changelog -->
+<section class="feature-section" aria-labelledby="feat3-h">
+  <div class="feature-row">
+    <div class="feature-text reveal">
+      <span class="feature-tag">Changelog</span>
+      <h2 id="feat3-h">"You asked, we built it."</h2>
+      <p>
+        When you publish a changelog entry and link it to feedback posts, Loopline
+        automatically closes those posts as Shipped and notifies voters.
+        Users who asked for the feature hear about it first — turning your changelog
+        into a loyalty engine, not just a release log.
+      </p>
+    </div>
+    <div class="illus reveal reveal-delay-1" aria-hidden="true">
+      <div class="illus-header">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Changelog · May 2026
+      </div>
+      <div class="illus-body" style="padding: 0;">
+        <div class="illus-entry">
+          <div class="illus-entry-dot" style="background: var(--ok);"></div>
+          <div class="illus-entry-body">
+            <span class="illus-entry-label" style="background: #dcfce7; color: #166534;">New</span>
+            <div class="illus-entry-title">Custom domain support is live</div>
+            <div class="illus-entry-sub">247 users who asked were notified · May 12</div>
+          </div>
+        </div>
+        <div class="illus-entry">
+          <div class="illus-entry-dot" style="background: var(--accent);"></div>
+          <div class="illus-entry-body">
+            <span class="illus-entry-label" style="background: var(--accent-soft); color: var(--accent);">Improvement</span>
+            <div class="illus-entry-title">Faster board load times</div>
+            <div class="illus-entry-sub">May 3</div>
+          </div>
+        </div>
+        <div class="illus-entry">
+          <div class="illus-entry-dot" style="background: var(--warn);"></div>
+          <div class="illus-entry-body">
+            <span class="illus-entry-label" style="background: #fef3c7; color: #92400e;">Fix</span>
+            <div class="illus-entry-title">Vote count now updates in real time</div>
+            <div class="illus-entry-sub">Apr 28</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature 4: Duplicate detection -->
+<section class="feature-section section-white" aria-labelledby="feat4-h">
+  <div class="feature-row reverse">
+    <div class="feature-text reveal">
+      <span class="feature-tag" style="background: #f0eeff; color: #7c3aed;">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#7c3aed" opacity=".2"/><path d="M6 4v3M6 8.5v.5" stroke="#7c3aed" stroke-width="1.3" stroke-linecap="round"/></svg>
+        AI-assisted
+      </span>
+      <h2 id="feat4-h">Boards that don't turn into landfills.</h2>
+      <p>
+        As a user types a new request, Loopline runs a semantic similarity search
+        (powered by pgvector embeddings — free, on your own database) and surfaces
+        "Looks like this might already exist." They upvote the existing post instead
+        of creating a duplicate. Your board stays clean without manual triaging.
+      </p>
+    </div>
+    <div class="illus reveal reveal-delay-1" aria-hidden="true">
+      <div class="illus-header">Submit a feature request</div>
+      <div class="illus-body">
+        <div style="margin-bottom: 8px;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--ink-2); margin-bottom: 5px;">Title</div>
+          <div style="border: 1.5px solid var(--accent); border-radius: 6px; padding: 8px 10px; font-size: 13px; color: var(--ink); background: var(--surface);">Add night mode to the dashb|</div>
+        </div>
+        <div class="illus-similar">
+          <div class="illus-similar-head">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="#6d5efc"><circle cx="6" cy="6" r="5"/></svg>
+            Similar requests already exist
+          </div>
+          <div class="illus-similar-item">
+            <span style="flex: 1; font-size: 12px;">Dark mode support</span>
+            <span class="illus-match">247 votes</span>
+          </div>
+          <div class="illus-similar-item">
+            <span style="flex: 1; font-size: 12px;">Dark theme option</span>
+            <span class="illus-match">89 votes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Feature 5: Inline admin -->
+<section class="feature-section" aria-labelledby="feat5-h">
+  <div class="feature-row">
+    <div class="feature-text reveal">
+      <span class="feature-tag">Inline admin</span>
+      <h2 id="feat5-h">Change status without leaving the board.</h2>
+      <p>
+        When you're logged in as an admin, status controls appear right on the post.
+        No separate admin panel to open, no context-switching, no "go to admin view first."
+        Just click the status badge, pick the new one, and you're done. It's the
+        workflow nobody else bothered to build.
+      </p>
+    </div>
+    <div class="illus reveal reveal-delay-1" aria-hidden="true">
+      <div class="illus-header">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Dark mode support · as admin
+      </div>
+      <div class="illus-body">
+        <div class="illus-admin-post">
+          <div class="illus-admin-head">
+            <span class="illus-admin-title">Dark mode support</span>
+            <span class="illus-status-pill editing">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1l4 5H1z"/></svg>
+              Under review ▾
+            </span>
+          </div>
+          <div class="illus-admin-body">
+            <div style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">Change status:</div>
+            <div class="illus-status-options">
+              <span class="illus-s-opt">Open</span>
+              <span class="illus-s-opt sel">Planned</span>
+              <span class="illus-s-opt">In Progress</span>
+              <span class="illus-s-opt">Shipped</span>
+              <span class="illus-s-opt">Declined</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ SOCIAL PROOF ════════════════════════════ -->
+<section class="section section-white section-sm" aria-label="Social proof">
+  <div class="section-inner">
+    <p class="center muted small reveal" style="margin-bottom: 28px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700;">
+      Trusted by product teams at
+    </p>
+    <div class="logos-strip reveal">
+      <span class="logo-word">Meridian</span>
+      <span class="logo-word">Stackwell</span>
+      <span class="logo-word">Fynch</span>
+      <span class="logo-word">Orbitly</span>
+      <span class="logo-word">Vantiq</span>
+      <span class="logo-word">Lumio</span>
+    </div>
+
+    <div class="stats-row reveal" style="margin-top: 48px;">
+      <div class="stat-box">
+        <div class="stat-n"><span>14</span>K+</div>
+        <p>Feature requests collected</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-n"><span>98</span>K</div>
+        <p>Upvotes cast</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-n"><span>2,400</span>+</div>
+        <p>Workspaces active</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-n"><span>4.9</span>★</div>
+        <p>Average rating</p>
+      </div>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <blockquote>
+          "We replaced a messy Notion doc and a Typeform inbox. Now our roadmap is public,
+          our board stays clean thanks to duplicate detection, and users actually check in
+          to see progress. Churn on our free tier dropped noticeably."
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: #ede9fe; color: #7c3aed;">SR</div>
+          <div>
+            <div class="testimonial-name">Sarah R.</div>
+            <div class="testimonial-role">Head of Product, Stackwell</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <blockquote>
+          "The inline admin is the thing. I used to spend ten minutes hunting for a post
+          in the admin panel. Now I change status right on the board, reply to the user,
+          and I'm done in thirty seconds."
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: #dcfce7; color: #166534;">MK</div>
+          <div>
+            <div class="testimonial-name">Marcus K.</div>
+            <div class="testimonial-role">Founder, Fynch</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <blockquote>
+          "Honest flat pricing was the deal-closer. Canny was going to cost us $400/mo
+          once our user base grew. Loopline charges per admin seat, not per voter.
+          Our bill is $29 and it covers everything we need."
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: #fef3c7; color: #92400e;">TP</div>
+          <div>
+            <div class="testimonial-name">Tariq P.</div>
+            <div class="testimonial-role">CTO, Orbitly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PRICING TEASER ════════════════════════════ -->
+<section class="section section-accent-bg" id="pricing-teaser" aria-labelledby="pricing-teaser-h">
+  <div class="section-inner">
+    <div class="center reveal" style="margin-bottom: 48px;">
+      <span class="section-label">Pricing</span>
+      <h2 id="pricing-teaser-h">Flat pricing. No per-user surprises.</h2>
+      <p style="font-size: 17px; max-width: 480px; margin: 0 auto;">
+        Pay by admin seat. Your users vote for free, forever, no matter how many of them there are.
+      </p>
+    </div>
+
+    <div class="pricing-teaser">
+      <div class="price-teaser-card reveal">
+        <div class="price-tier">Free</div>
+        <div class="price-amount"><sup>$</sup>0</div>
+        <div class="price-period">forever</div>
+        <ul class="price-teaser-list">
+          <li>1 feedback board</li>
+          <li>Public roadmap</li>
+          <li>Changelog</li>
+          <li>Loopline branding</li>
+        </ul>
+        <a href="admin.html" class="btn btn-ghost" style="width: 100%; justify-content: center;">Start free</a>
+      </div>
+
+      <div class="price-teaser-card featured reveal reveal-delay-1">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount"><sup>$</sup>29</div>
+        <div class="price-period">per month</div>
+        <ul class="price-teaser-list">
+          <li>Unlimited boards</li>
+          <li>Custom domain + remove branding</li>
+          <li>Private boards</li>
+          <li>CSV export</li>
+          <li>Semantic duplicate detection</li>
+        </ul>
+        <a href="admin.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Start free</a>
+      </div>
+
+      <div class="price-teaser-card reveal reveal-delay-2">
+        <div class="price-tier">Business</div>
+        <div class="price-amount"><sup>$</sup>99</div>
+        <div class="price-period">per month</div>
+        <ul class="price-teaser-list">
+          <li>Everything in Pro</li>
+          <li>Advanced analytics</li>
+          <li>Multiple admin seats</li>
+          <li>Priority support</li>
+          <li>SSO &amp; integrations (soon)</li>
+        </ul>
+        <a href="admin.html" class="btn btn-ghost" style="width: 100%; justify-content: center;">Start free</a>
+      </div>
+    </div>
+
+    <div class="center reveal" style="margin-top: 32px;">
+      <a href="pricing.html" class="btn btn-ghost">See full pricing &amp; feature comparison &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FINAL CTA ════════════════════════════ -->
+<section class="final-cta" aria-labelledby="final-cta-h">
+  <h2 id="final-cta-h">Your users are already telling you what to build.</h2>
+  <p>Give them a place to say it — and actually close the loop.</p>
+  <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <a href="admin.html" class="btn btn-white btn-lg">Start free — no card needed</a>
+    <a href="portal.html?w=acme" class="btn btn-ghost-white btn-lg">See the live demo &rarr;</a>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">
+          <svg width="22" height="22" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <ellipse cx="9.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none"/>
+            <ellipse cx="16.5" cy="13" rx="7.5" ry="5" stroke="#6d5efc" stroke-width="2.2" fill="none" opacity=".7"/>
+          </svg>
+          Loopline
+        </div>
+        <p class="footer-tagline">
+          The shortest line between you<br>and what your users actually want.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="portal.html?w=acme">Live demo</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Loopline. All rights reserved.</p>
+      <p>Built for product teams who actually listen.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── Scroll-based nav shadow ───
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ─── Mobile nav toggle ───
+  const toggle = document.getElementById('nav-toggle');
+  const mobileNav = document.getElementById('nav-mobile');
+  toggle.addEventListener('click', () => {
+    const open = mobileNav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  // Close on mobile link click
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+    });
+  });
+  // Keyboard: Escape closes menu
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      toggle.focus();
+    }
+  });
+
+  // ─── Scroll-in reveal (IntersectionObserver) ───
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    // Degrade gracefully: show all without animation
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+</script>
+</body>
+</html>

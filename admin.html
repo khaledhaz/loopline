@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loopline Admin</title>
+  <link rel="stylesheet" href="assets/loop.css" />
+  <style>
+    /* ── Admin shell ──────────────────────────────────────────── */
+    #auth-gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    #auth-gate .card { width: 100%; max-width: 380px; padding: 32px; }
+    #auth-gate h1 { font-size: 24px; margin-bottom: 4px; }
+    #auth-gate .sub { color: var(--mut); font-size: 14px; margin-bottom: 28px; }
+    #auth-gate .toggle-link { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; font-size: 14px; padding: 0; }
+    #auth-gate .toggle-link:hover { text-decoration: underline; }
+
+    #ws-gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    #ws-gate .card { width: 100%; max-width: 480px; padding: 32px; }
+    .ws-option { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; transition: .15s; margin-bottom: 10px; }
+    .ws-option:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .ws-option .ws-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; flex: 0 0 auto; }
+    .ws-option .ws-info strong { display: block; font-size: 15px; }
+    .ws-option .ws-info span { font-size: 13px; color: var(--mut); }
+
+    /* ── App shell ───────────────────────────────────────────── */
+    #app { display: none; min-height: 100vh; }
+    .admin-topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 40; height: 58px; display: flex; align-items: center; padding: 0 20px; gap: 16px; }
+    .admin-topbar .brand { font-size: 18px; }
+    .admin-topbar .ws-name { font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .admin-topbar .spacer { flex: 1; }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; flex: 0 0 auto; }
+    .topbar-actions a, .topbar-actions button { white-space: nowrap; }
+
+    .admin-body { display: flex; min-height: calc(100vh - 58px); }
+
+    /* ── Sidebar ─────────────────────────────────────────────── */
+    .sidebar { width: 200px; flex: 0 0 200px; background: var(--surface); border-right: 1px solid var(--line); padding: 16px 0; display: flex; flex-direction: column; position: sticky; top: 58px; height: calc(100vh - 58px); overflow-y: auto; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; color: var(--ink-2); font-size: 14px; font-weight: 500; cursor: pointer; border-radius: 0; transition: .1s; border: none; background: none; width: 100%; text-align: left; }
+    .nav-item:hover { background: var(--surface-2); color: var(--ink); text-decoration: none; }
+    .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+    .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; flex: 0 0 auto; }
+    .nav-divider { height: 1px; background: var(--line); margin: 8px 12px; }
+
+    /* ── Content area ────────────────────────────────────────── */
+    .content { flex: 1; min-width: 0; padding: 24px; }
+    .section { display: none; }
+    .section.active { display: block; }
+    .section-header { margin-bottom: 20px; }
+    .section-header h2 { font-size: 20px; margin-bottom: 4px; }
+    .section-header p { margin: 0; font-size: 14px; color: var(--mut); }
+
+    /* ── Filters bar ─────────────────────────────────────────── */
+    .filters { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .filters select { width: auto; min-width: 120px; padding: 7px 10px; font-size: 13px; }
+    .filters input[type=search] { width: auto; min-width: 180px; padding: 7px 10px; font-size: 13px; }
+    .filter-count { font-size: 13px; color: var(--mut); margin-left: 4px; }
+
+    /* ── Post rows ───────────────────────────────────────────── */
+    .post-list { display: flex; flex-direction: column; gap: 0; }
+    .post-row { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
+    .post-row-head { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; cursor: pointer; }
+    .post-row-head:hover { background: var(--surface-2); }
+    .post-vote { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 44px; padding: 6px 4px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); flex: 0 0 44px; }
+    .post-vote .caret { font-size: 11px; color: var(--mut); }
+    .post-vote .n { font-size: 15px; font-weight: 700; color: var(--ink); }
+    .post-main { flex: 1; min-width: 0; }
+    .post-title { font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 4px; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .post-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .post-meta .badge { font-size: 11px; padding: 2px 8px; }
+    .post-meta .board-badge { background: var(--accent-soft); color: var(--accent); }
+    .post-pinned-icon { color: var(--warn); font-size: 13px; }
+    .post-row-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+
+    /* ── Expanded post panel ─────────────────────────────────── */
+    .post-expand { border-top: 1px solid var(--line); padding: 16px; background: #fafbfd; display: none; }
+    .post-expand.open { display: block; }
+    .expand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .expand-col { display: flex; flex-direction: column; gap: 12px; }
+    .expand-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mut); margin-bottom: 6px; }
+    .post-body-text { font-size: 14px; color: var(--ink-2); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .action-block { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px; }
+    .action-block .expand-label { margin-bottom: 8px; }
+
+    /* inline status select */
+    .status-select { font-size: 13px; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-family: var(--font); }
+    .declined-reason { margin-top: 8px; }
+    .declined-reason textarea { min-height: 60px; font-size: 13px; }
+
+    /* inline reply */
+    .reply-area textarea { font-size: 13px; min-height: 70px; margin-bottom: 8px; }
+
+    /* merge search */
+    .merge-search { position: relative; }
+    .merge-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); max-height: 220px; overflow-y: auto; z-index: 20; }
+    .merge-result-item { padding: 10px 12px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--line); }
+    .merge-result-item:last-child { border-bottom: 0; }
+    .merge-result-item:hover { background: var(--accent-soft); color: var(--accent); }
+    .merge-result-item strong { display: block; font-size: 13px; }
+    .merge-result-item span { font-size: 11px; color: var(--mut); }
+
+    /* comments preview */
+    .comment-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .comment-item:last-child { border-bottom: 0; }
+    .comment-body { font-size: 13px; color: var(--ink-2); flex: 1; min-width: 0; }
+    .comment-body.is-admin { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 8px 10px; }
+    .comment-author { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+    .comment-author.admin-tag { color: var(--accent); }
+    .comment-text { white-space: pre-wrap; word-break: break-word; }
+    .comment-time { font-size: 11px; color: var(--mut); }
+
+    /* ── Roadmap admin ───────────────────────────────────────── */
+    .road-admin { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .road-admin-col { background: var(--surface-2); border-radius: var(--radius); padding: 14px; min-height: 120px; }
+    .road-admin-col h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-bottom: 12px; }
+    .road-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px; }
+    .road-card-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .road-card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .road-card .status-select { font-size: 12px; padding: 4px 8px; }
+
+    /* ── Changelog editor ────────────────────────────────────── */
+    .cl-list { margin-bottom: 20px; }
+    .cl-entry { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+    .cl-entry-head { display: flex; align-items: flex-start; gap: 12px; }
+    .cl-entry-meta { flex: 1; min-width: 0; }
+    .cl-entry-title { font-weight: 600; font-size: 15px; }
+    .cl-entry-labels { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .cl-label { background: var(--accent-soft); color: var(--accent); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+    .cl-entry-status { margin-left: auto; }
+    .cl-editor { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+    .cl-editor h3 { font-size: 16px; margin-bottom: 16px; }
+    .linked-posts-select { width: 100%; min-height: 80px; font-size: 13px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+
+    /* ── Boards section ──────────────────────────────────────── */
+    .board-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+    .board-card-head { display: flex; align-items: center; gap: 12px; }
+    .board-card-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 18px; flex: 0 0 auto; }
+    .board-card-info { flex: 1; min-width: 0; }
+    .board-card-info strong { font-size: 15px; display: block; }
+    .board-card-info span { font-size: 13px; color: var(--mut); }
+    .board-priv { font-size: 11px; background: var(--surface-2); color: var(--ink-2); padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+    .new-board-form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; margin-top: 16px; }
+    .new-board-form h3 { margin-bottom: 16px; font-size: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .toggle-row { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+    .toggle-row input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+    .toggle-row span { font-size: 14px; font-weight: 500; }
+
+    /* ── Analytics ───────────────────────────────────────────── */
+    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+    .kpi-card .kpi-val { font-size: 32px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+    .kpi-card .kpi-label { font-size: 13px; color: var(--mut); margin-top: 4px; }
+    .status-bar-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+    .status-bar-wrap h3 { font-size: 15px; margin-bottom: 16px; }
+    .status-bar { display: flex; border-radius: 6px; overflow: hidden; height: 20px; }
+    .status-bar-seg { height: 100%; transition: .3s; }
+    .status-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .status-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+    .status-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+    .top-posts-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+    .top-posts-wrap h3 { font-size: 15px; margin-bottom: 14px; }
+    .top-post-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .top-post-item:last-child { border-bottom: 0; }
+    .top-post-rank { font-size: 20px; font-weight: 800; color: var(--line); width: 28px; text-align: center; flex: 0 0 auto; }
+    .top-post-info { flex: 1; min-width: 0; }
+    .top-post-title { font-size: 14px; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .top-post-votes { font-size: 13px; color: var(--mut); }
+
+    /* ── Settings ────────────────────────────────────────────── */
+    .settings-form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; max-width: 560px; }
+    .settings-form h3 { font-size: 16px; margin-bottom: 20px; }
+    .color-row { display: flex; align-items: center; gap: 10px; }
+    .color-row input[type=color] { width: 48px; height: 40px; padding: 2px 4px; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; background: var(--surface); }
+    .color-row input[type=text] { flex: 1; }
+    .plan-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; background: var(--accent-soft); color: var(--accent); }
+    .billing-note { font-size: 13px; color: var(--mut); margin-top: 8px; }
+
+    /* ── Skeleton rows ───────────────────────────────────────── */
+    .skel-row { height: 72px; border-radius: var(--radius); margin-bottom: 8px; }
+
+    /* ── Mobile: sidebar collapses to top tabs ────────────────  */
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; flex: 0 0 auto; position: static; height: auto; flex-direction: row; overflow-x: auto; overflow-y: visible; border-right: none; border-bottom: 1px solid var(--line); padding: 6px 10px; flex-wrap: nowrap; gap: 2px; }
+      .nav-item { white-space: nowrap; border-radius: 999px; padding: 7px 12px; font-size: 13px; }
+      .nav-item .nav-icon { display: none; }
+      .nav-divider { display: none; }
+      .admin-body { flex-direction: column; }
+      .content { padding: 16px; }
+      .expand-grid { grid-template-columns: 1fr; }
+      .road-admin { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .admin-topbar .ws-name { max-width: 120px; }
+    }
+    @media (max-width: 480px) {
+      .kpi-row { grid-template-columns: 1fr; }
+      .topbar-actions .view-portal-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate" role="main" aria-label="Sign in to Loopline">
+  <div class="card">
+    <div class="row" style="margin-bottom: 20px;">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="9" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+        <circle cx="17" cy="17" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none" opacity=".65"/>
+      </svg>
+      <span style="font-weight:800;font-size:20px;letter-spacing:-.02em;">Loopline</span>
+    </div>
+    <h1 id="auth-title">Welcome back</h1>
+    <p class="sub" id="auth-sub">Sign in to your admin dashboard.</p>
+    <div id="auth-error" class="hide" style="background:var(--danger);color:#fff;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:14px;" role="alert"></div>
+    <form id="auth-form" novalidate>
+      <div class="field">
+        <label for="auth-email">Email</label>
+        <input type="email" id="auth-email" autocomplete="email" placeholder="you@company.com" required />
+      </div>
+      <div class="field">
+        <label for="auth-password">Password</label>
+        <input type="password" id="auth-password" autocomplete="current-password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;" id="auth-btn">Sign in</button>
+    </form>
+    <p style="margin-top:16px;font-size:14px;text-align:center;color:var(--ink-2);">
+      <span id="auth-toggle-text">Don't have an account?</span>
+      <button class="toggle-link" id="auth-toggle-btn" type="button">Create account</button>
+    </p>
+  </div>
+</div>
+
+<!-- WORKSPACE GATE -->
+<div id="ws-gate" class="hide" role="main" aria-label="Select workspace">
+  <div class="card">
+    <div class="row" style="margin-bottom: 20px;">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="9" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+        <circle cx="17" cy="17" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none" opacity=".65"/>
+      </svg>
+      <span style="font-weight:800;font-size:20px;letter-spacing:-.02em;">Loopline</span>
+    </div>
+    <h1 style="font-size:20px;margin-bottom:6px;" id="ws-title">Your workspaces</h1>
+    <p style="margin-bottom:20px;font-size:14px;color:var(--mut);" id="ws-sub">Pick a workspace to manage.</p>
+    <div id="ws-list" role="list"></div>
+    <div id="ws-create-wrap" class="hide">
+      <p style="font-size:14px;color:var(--mut);margin-bottom:14px;">No workspace yet. Create one to get started.</p>
+      <div id="ws-create-error" class="hide" style="background:var(--danger);color:#fff;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:12px;" role="alert"></div>
+      <div class="field"><label for="ws-name-input">Workspace name</label><input type="text" id="ws-name-input" placeholder="Acme Inc." /></div>
+      <div class="field"><label for="ws-slug-input">URL slug</label><input type="text" id="ws-slug-input" placeholder="acme" /></div>
+      <button class="btn btn-primary" id="ws-create-btn" style="width:100%;">Create workspace</button>
+    </div>
+    <div style="margin-top:16px;text-align:right;">
+      <button class="btn btn-ghost btn-sm" id="ws-signout-btn" type="button">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" aria-label="Loopline admin dashboard">
+
+  <!-- TOPBAR -->
+  <header class="admin-topbar" role="banner">
+    <a href="admin.html" class="brand" aria-label="Loopline home">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="9" cy="9" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+        <circle cx="17" cy="17" r="6" stroke="var(--accent)" stroke-width="2.5" fill="none" opacity=".65"/>
+      </svg>
+      Loopline
+    </a>
+    <span class="ws-name" id="topbar-ws-name" aria-label="Current workspace"></span>
+    <div class="spacer"></div>
+    <nav class="topbar-actions" aria-label="Top actions">
+      <a id="view-portal-link" href="#" target="_blank" rel="noopener" class="btn btn-ghost btn-sm view-portal-link">View portal</a>
+      <button id="topbar-signout" class="btn btn-subtle btn-sm" type="button">Sign out</button>
+    </nav>
+  </header>
+
+  <div class="admin-body">
+
+    <!-- SIDEBAR NAV -->
+    <nav class="sidebar" role="navigation" aria-label="Admin sections">
+      <button class="nav-item active" data-section="inbox" aria-current="page">
+        <span class="nav-icon" aria-hidden="true">📥</span> Inbox
+      </button>
+      <button class="nav-item" data-section="roadmap">
+        <span class="nav-icon" aria-hidden="true">🗺</span> Roadmap
+      </button>
+      <button class="nav-item" data-section="changelog">
+        <span class="nav-icon" aria-hidden="true">📋</span> Changelog
+      </button>
+      <button class="nav-item" data-section="boards">
+        <span class="nav-icon" aria-hidden="true">📁</span> Boards
+      </button>
+      <div class="nav-divider" role="separator"></div>
+      <button class="nav-item" data-section="analytics">
+        <span class="nav-icon" aria-hidden="true">📊</span> Analytics
+      </button>
+      <button class="nav-item" data-section="settings">
+        <span class="nav-icon" aria-hidden="true">⚙️</span> Settings
+      </button>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="content" id="main-content">
+
+      <!-- INBOX -->
+      <section class="section active" id="section-inbox" aria-label="Inbox">
+        <div class="section-header spread wrap-flex" style="gap:12px;">
+          <div>
+            <h2>Inbox</h2>
+            <p>Triage, respond, and manage all feedback in one place.</p>
+          </div>
+        </div>
+        <div class="filters" role="group" aria-label="Filters">
+          <select id="inbox-board-filter" aria-label="Filter by board">
+            <option value="">All boards</option>
+          </select>
+          <select id="inbox-status-filter" aria-label="Filter by status">
+            <option value="">All statuses</option>
+            <option value="open">Open</option>
+            <option value="under_review">Under Review</option>
+            <option value="planned">Planned</option>
+            <option value="in_progress">In Progress</option>
+            <option value="shipped">Shipped</option>
+            <option value="declined">Declined</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select id="inbox-sort-filter" aria-label="Sort by">
+            <option value="trending">Trending</option>
+            <option value="top">Top voted</option>
+            <option value="new">Newest</option>
+          </select>
+          <input type="search" id="inbox-search" placeholder="Search posts…" aria-label="Search posts" />
+          <span class="filter-count" id="inbox-count" aria-live="polite" aria-atomic="true"></span>
+        </div>
+        <div id="inbox-list" role="list" aria-label="Posts"></div>
+      </section>
+
+      <!-- ROADMAP -->
+      <section class="section" id="section-roadmap" aria-label="Roadmap">
+        <div class="section-header">
+          <h2>Roadmap</h2>
+          <p>Posts grouped by status. Change status inline on each card.</p>
+        </div>
+        <div class="road-admin" id="roadmap-cols" role="list"></div>
+      </section>
+
+      <!-- CHANGELOG -->
+      <section class="section" id="section-changelog" aria-label="Changelog">
+        <div class="section-header spread wrap-flex" style="gap:12px;">
+          <div>
+            <h2>Changelog</h2>
+            <p>Announce what you've shipped. Drafts only visible here.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="new-changelog-btn" type="button">+ New entry</button>
+        </div>
+        <div id="cl-list" class="cl-list"></div>
+        <div id="cl-editor-wrap" class="hide">
+          <div class="cl-editor">
+            <h3 id="cl-editor-title">New changelog entry</h3>
+            <input type="hidden" id="cl-edit-id" />
+            <div class="field"><label for="cl-title">Title</label><input type="text" id="cl-title" placeholder="What did you ship?" /></div>
+            <div class="field"><label for="cl-body">Body</label><textarea id="cl-body" placeholder="Describe the update…"></textarea></div>
+            <div class="field"><label for="cl-labels">Labels <span style="font-weight:400;color:var(--mut)">(comma-separated)</span></label><input type="text" id="cl-labels" placeholder="bug fix, improvement, new feature" /></div>
+            <div class="field">
+              <label for="cl-status-select">Status</label>
+              <select id="cl-status-select">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cl-linked-posts">Link to posts <span style="font-weight:400;color:var(--mut)">(auto-closes to "shipped")</span></label>
+              <select id="cl-linked-posts" class="linked-posts-select" multiple aria-label="Link posts to this changelog entry"></select>
+              <p class="small muted" style="margin-top:4px;">Hold Ctrl/Cmd to select multiple.</p>
+            </div>
+            <div class="row" style="gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-primary" id="cl-save-btn" type="button">Save entry</button>
+              <button class="btn btn-ghost" id="cl-cancel-btn" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOARDS -->
+      <section class="section" id="section-boards" aria-label="Boards">
+        <div class="section-header spread wrap-flex" style="gap:12px;">
+          <div>
+            <h2>Boards</h2>
+            <p>Organize feedback into focused categories.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="show-new-board-btn" type="button">+ New board</button>
+        </div>
+        <div id="boards-list"></div>
+        <div id="new-board-form" class="new-board-form hide">
+          <h3>Create new board</h3>
+          <div class="form-row">
+            <div class="field"><label for="board-name">Name</label><input type="text" id="board-name" placeholder="Feature Requests" /></div>
+            <div class="field"><label for="board-slug">Slug</label><input type="text" id="board-slug" placeholder="feature-requests" /></div>
+          </div>
+          <div class="field"><label for="board-desc">Description <span style="font-weight:400;color:var(--mut)">(optional)</span></label><input type="text" id="board-desc" placeholder="Suggest features and improvements." /></div>
+          <label class="toggle-row" style="margin-bottom:16px;">
+            <input type="checkbox" id="board-private" />
+            <span>Private board (hidden from portal)</span>
+          </label>
+          <div class="row" style="gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="create-board-btn" type="button">Create board</button>
+            <button class="btn btn-ghost" id="cancel-board-btn" type="button">Cancel</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section class="section" id="section-analytics" aria-label="Analytics">
+        <div class="section-header">
+          <h2>Analytics</h2>
+          <p>Understand what your users want most.</p>
+        </div>
+        <div class="kpi-row" id="kpi-row" role="list" aria-label="Key metrics"></div>
+        <div class="status-bar-wrap">
+          <h3>Status breakdown</h3>
+          <div class="status-bar" id="status-bar" role="img" aria-label="Status breakdown chart"></div>
+          <div class="status-legend" id="status-legend"></div>
+        </div>
+        <div class="top-posts-wrap">
+          <h3>Top requested</h3>
+          <div id="top-posts-list"></div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="section" id="section-settings" aria-label="Settings">
+        <div class="section-header">
+          <h2>Settings</h2>
+          <p>Configure your workspace appearance and details.</p>
+        </div>
+        <div class="settings-form">
+          <h3>Workspace</h3>
+          <div class="field"><label for="settings-name">Workspace name</label><input type="text" id="settings-name" placeholder="Acme Inc." /></div>
+          <div class="field"><label for="settings-tagline">Tagline <span style="font-weight:400;color:var(--mut)">(optional)</span></label><input type="text" id="settings-tagline" placeholder="We build better software together." /></div>
+          <div class="field">
+            <label>Accent color</label>
+            <div class="color-row">
+              <input type="color" id="settings-accent-picker" value="#6d5efc" aria-label="Pick accent color" />
+              <input type="text" id="settings-accent-hex" placeholder="#6d5efc" aria-label="Accent color hex value" style="width:130px;flex:0 0 130px;" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Plan</label>
+            <div class="row" style="gap:10px;flex-wrap:wrap;">
+              <span class="plan-badge" id="settings-plan-badge">Free</span>
+              <span class="billing-note">Billing coming soon — upgrade options unlocked shortly.</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="settings-save-btn" type="button">Save changes</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<!-- MERGE CONFIRM MODAL -->
+<div class="modal-bg hide" id="merge-modal" role="dialog" aria-modal="true" aria-labelledby="merge-modal-title">
+  <div class="modal">
+    <div class="modal-p">
+      <h2 id="merge-modal-title" style="font-size:18px;margin-bottom:8px;">Merge posts</h2>
+      <p style="color:var(--ink-2);font-size:14px;" id="merge-modal-body"></p>
+      <div class="row" style="gap:10px;flex-wrap:wrap;margin-top:20px;">
+        <button class="btn btn-danger" id="merge-confirm-btn" type="button">Yes, merge</button>
+        <button class="btn btn-ghost" id="merge-cancel-btn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/sb.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>
