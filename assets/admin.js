@@ -80,6 +80,15 @@
     setAuthMode(authMode === "signin" ? "signup" : "signin");
   });
 
+  // Deep-link: land cold traffic on Create-account when ?signup=1 or #create is present
+  // (e.g. the "Start free" CTAs on the landing page). Default stays sign-in.
+  (function applyAuthDeepLink() {
+    const wantsSignup =
+      new URLSearchParams(location.search).get("signup") === "1" ||
+      location.hash === "#create";
+    if (wantsSignup) setAuthMode("signup");
+  })();
+
   $("#auth-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = $("#auth-email").value.trim();
