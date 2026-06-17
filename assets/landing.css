@@ -611,99 +611,36 @@ body { overflow-x: hidden; }
 }
 .illus-s-opt:hover, .illus-s-opt.sel { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-/* ─── Social proof ─── */
-.logos-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 32px;
-  padding: 20px 0;
-}
-.logo-word {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--line);
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  user-select: none;
-  transition: color .2s;
-}
-.logo-word:hover { color: var(--surface-2); }
-.stats-row {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  margin-bottom: 56px;
-}
-.stat-box {
-  flex: 1;
-  background: var(--surface);
-  padding: 28px 24px;
-  text-align: center;
-  min-width: 0;
-}
-.stat-box .stat-n {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  color: var(--ink);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.stat-box .stat-n span { color: var(--accent); }
-.stat-box p {
-  font-size: 14px;
-  color: var(--mut);
-  margin: 0;
-}
-.testimonials-grid {
+/* ─── Principles (early-stage social-proof replacement) ─── */
+.principles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
-.testimonial-card {
+.principle-box {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 28px 24px;
   box-shadow: var(--shadow-sm);
+  min-width: 0;
 }
-.testimonial-stars {
-  color: #f5a623;
+.principle-box h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.principle-box p {
   font-size: 14px;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
-}
-.testimonial-card blockquote {
-  margin: 0 0 16px;
-  font-size: 15px;
   line-height: 1.6;
-  color: var(--ink-2);
-  font-style: normal;
+  color: var(--mut);
+  margin: 0;
 }
-.testimonial-author {
-  display: flex; align-items: center; gap: 10px;
-}
-.testimonial-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 14px; flex: 0 0 auto;
-}
-.testimonial-name { font-weight: 700; font-size: 14px; color: var(--ink); }
-.testimonial-role { font-size: 12px; color: var(--mut); }
 
 @media (max-width: 800px) {
-  .stats-row { flex-direction: column; }
-  .testimonials-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 600px) {
-  .testimonials-grid { grid-template-columns: 1fr; }
+  .principles-grid { grid-template-columns: 1fr; }
 }
 
 /* ─── Pricing teaser ─── */
